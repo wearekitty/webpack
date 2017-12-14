@@ -97,7 +97,18 @@ var webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
-    ])
+    ]),
+
+    new PrerendererWebpackPlugin({
+      staticDir: path.resolve(__dirname, '../dist'),
+      outputDir: path.resolve(__dirname, '../prerendered'),
+      // Required - Routes to render.
+      routes: [''].map(route => '/' + pathBase + route),
+      removeWhitespace: true,
+      renderer: new BrowserRenderer({
+        inject: true,
+      }),
+    }),
   ]
 })
 
