@@ -59,7 +59,6 @@
     "http-proxy-middleware": "^0.17.3",
     "node-sass": "^4.5.3",
     "webpack-bundle-analyzer": "^2.2.1",
-    {{#unit}}
     {{#if_eq runner "jest"}}
     "babel-jest": "^21.0.2",
     "babel-plugin-dynamic-import-node": "^1.2.0",
