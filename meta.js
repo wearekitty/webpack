@@ -23,16 +23,16 @@ module.exports = {
       required: true,
       message: 'Project name'
     },
-    "description": {
-      "type": "string",
-      "required": false,
-      "message": "Project description",
-      "default": "A Kitty project built with Vue.js"
+    'description': {
+      'type': 'string',
+      'required': false,
+      'message': 'Project description',
+      'default': 'A Kitty project built with Vue.js'
     },
-    "author": {
-      "type": "string",
-      "message": "Author",
-      "default": "Kitty"
+    'author': {
+      'type': 'string',
+      'message': 'Author',
+      'default': 'Kitty'
     },
     build: {
       type: 'list',
@@ -80,13 +80,14 @@ module.exports = {
         }
       ]
     },
-    "vuex": {
-      "type": "confirm",
-      "message": "Install vuex?"
+    vuex: {
+      'type': 'confirm',
+      'message': 'Install vuex?'
     },
-    "lint": {
-      "type": "confirm",
-      "message": "Use ESLint to lint your code?"
+    lint: {
+      'type': 'confirm',
+      'message': 'Use ESLint to lint your code?'
+    },
     unit: {
       type: 'confirm',
       message: 'Set up unit tests'
@@ -143,16 +144,16 @@ module.exports = {
     '.eslintrc.js': 'lint',
     '.eslintignore': 'lint',
     'config/test.env.js': 'unit || e2e',
-    'build/webpack.test.conf.js': "unit && runner === 'karma'",
+    'build/webpack.test.conf.js': 'unit && runner === 'karma'',
     'test/unit/**/*': 'unit',
-    'test/unit/index.js': "unit && runner === 'karma'",
-    'test/unit/jest.conf.js': "unit && runner === 'jest'",
-    'test/unit/karma.conf.js': "unit && runner === 'karma'",
-    'test/unit/specs/index.js': "unit && runner === 'karma'",
-    'test/unit/setup.js': "unit && runner === 'jest'",
+    'test/unit/index.js': 'unit && runner === 'karma'',
+    'test/unit/jest.conf.js': 'unit && runner === 'jest'',
+    'test/unit/karma.conf.js': 'unit && runner === 'karma'',
+    'test/unit/specs/index.js': 'unit && runner === 'karma'',
+    'test/unit/setup.js': 'unit && runner === 'jest'',
     'test/e2e/**/*': 'e2e',
     'src/router/**/*': 'router',
-    "store/**/*": "vuex"
+    'store/**/*': 'vuex'
   },
   'complete': function (data, { chalk }) {
 
