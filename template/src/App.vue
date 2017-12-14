@@ -4,9 +4,9 @@
       <img src="@/../static/kitty.png" v-rjs="2" width="206" height="110" v-show="isMounted">
     </transition>
     {{#router}}
-    <router-view></router-view>
+    <router-view/>
     {{else}}
-    <hello></hello>
+    <HelloWorld/>
     {{/router}}
   </div>
 </template>
