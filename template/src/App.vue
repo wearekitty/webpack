@@ -37,7 +37,7 @@
   @import url("https://fonts.googleapis.com/css?family=Work+Sans");
   @font-face {
     font-family: 'UniNeue-Regular';
-    src: url('~./assets/fonts/Fontfabric - UniNeueRegular.otf');
+    src: url('~@/assets/fonts/UniNeueRegular.otf');
     font-weight: 400;
   }
 
