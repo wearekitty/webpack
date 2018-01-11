@@ -126,7 +126,7 @@ const webpackConfig = merge(baseWebpackConfig, {
 
     new PrerendererWebpackPlugin({
       staticDir: path.resolve(__dirname, '../dist'),
-      outputDir: path.resolve(__dirname, '../prerendered'),
+      outputDir: path.resolve(__dirname, '../dist'),
       // Required - Routes to render.
       routes: [''].map(route => '/' + pathBase + route),
       removeWhitespace: true,
