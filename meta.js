@@ -1,27 +1,34 @@
-const path = require('path');
-const fs = require('fs');
+const path = require('path')
+const fs = require('fs')
 const {
   sortDependencies,
   installDependencies,
   runLintFix,
-  printMessage
+  printMessage,
 } = require('./utils')
+const pkg = require('./package.json')
+
+const templateVersion = pkg.version
 
 module.exports = {
   helpers: {
-    if_or: function (v1, v2, options) {
+    if_or(v1, v2, options) {
       if (v1 || v2) {
-        return options.fn(this);
+        return options.fn(this)
       }
 
-      return options.inverse(this);
-    }
+      return options.inverse(this)
+    },
+    template_version() {
+      return templateVersion
+    },
   },
+
   prompts: {
     name: {
       type: 'string',
       required: true,
-      message: 'Project name'
+      message: 'Project name',
     },
     description: {
       type: 'string',
@@ -29,10 +36,10 @@ module.exports = {
       message: 'Project description',
       default: 'A Kitty project built with Vue.js'
     },
-    "author": {
-      "type": "string",
-      "message": "Author",
-      "default": "Kitty"
+    author: {
+      type: 'string',
+      message: 'Author',
+      default: 'Kitty'
     },
     build: {
       type: 'list',
@@ -41,22 +48,23 @@ module.exports = {
         {
           name: 'Runtime + Compiler: recommended for most users',
           value: 'standalone',
-          short: 'standalone'
+          short: 'standalone',
         },
         {
-          name: 'Runtime-only: about 6KB lighter min+gzip, but templates (or any Vue-specific HTML) are ONLY allowed in .vue files - render functions are required elsewhere',
+          name:
+            'Runtime-only: about 6KB lighter min+gzip, but templates (or any Vue-specific HTML) are ONLY allowed in .vue files - render functions are required elsewhere',
           value: 'runtime',
-          short: 'runtime'
-        }
-      ]
+          short: 'runtime',
+        },
+      ],
     },
     router: {
       type: 'confirm',
-      message: 'Install vue-router?'
+      message: 'Install vue-router?',
     },
     lint: {
       type: 'confirm',
-      message: 'Use ESLint to lint your code?'
+      message: 'Use ESLint to lint your code?',
     },
     lintConfig: {
       when: 'lint',
@@ -66,19 +74,19 @@ module.exports = {
         {
           name: 'Standard (https://github.com/standard/standard)',
           value: 'standard',
-          short: 'Standard'
+          short: 'Standard',
         },
         {
           name: 'Airbnb (https://github.com/airbnb/javascript)',
           value: 'airbnb',
-          short: 'Airbnb'
+          short: 'Airbnb',
         },
         {
           name: 'none (configure it yourself)',
           value: 'none',
-          short: 'none'
-        }
-      ]
+          short: 'none',
+        },
+      ],
     },
     vuex: {
       'type': 'confirm',
@@ -90,7 +98,7 @@ module.exports = {
     },
     unit: {
       type: 'confirm',
-      message: 'Set up unit tests'
+      message: 'Set up unit tests',
     },
     runner: {
       when: 'unit',
@@ -100,45 +108,46 @@ module.exports = {
         {
           name: 'Jest',
           value: 'jest',
-          short: 'jest'
+          short: 'jest',
         },
         {
           name: 'Karma and Mocha',
           value: 'karma',
-          short: 'karma'
+          short: 'karma',
         },
         {
           name: 'none (configure it yourself)',
           value: 'noTest',
-          short: 'noTest'
-        }
-      ]
+          short: 'noTest',
+        },
+      ],
     },
     e2e: {
       type: 'confirm',
-      message: 'Setup e2e tests with Nightwatch?'
+      message: 'Setup e2e tests with Nightwatch?',
     },
     autoInstall: {
       type: 'list',
-      message: 'Should we run `npm install` for you after the project has been created? (recommended)',
+      message:
+        'Should we run `npm install` for you after the project has been created? (recommended)',
       choices: [
         {
           name: 'Yes, use NPM',
           value: 'npm',
-          short: 'npm'
+          short: 'npm',
         },
         {
           name: 'Yes, use Yarn',
           value: 'yarn',
-          short: 'yarn'
+          short: 'yarn',
         },
         {
           name: 'No, I will handle that myself',
           value: false,
-          short: 'no'
-        }
-      ]
-    }
+          short: 'no',
+        },
+      ],
+    },
   },
   filters: {
     '.eslintrc.js': 'lint',
@@ -155,8 +164,7 @@ module.exports = {
     'src/router/**/*': 'router',
     'store/**/*': 'vuex'
   },
-  'complete': function (data, { chalk }) {
-
+  complete: function(data, { chalk }) {
     const green = chalk.green
 
     sortDependencies(data, green)
@@ -165,15 +173,17 @@ module.exports = {
 
     if (data.autoInstall) {
       installDependencies(cwd, data.autoInstall, green)
-      .then(() => {
-        return runLintFix(cwd, data, green)
-      })
-      .then(() => {
-        printMessage(data, green)
-      })
+        .then(() => {
+          return runLintFix(cwd, data, green)
+        })
+        .then(() => {
+          printMessage(data, green)
+        })
+        .catch(e => {
+          console.log(chalk.red('Error:'), e)
+        })
     } else {
       printMessage(data, chalk)
     }
-
-  }
-};
+  },
+}
