@@ -17,7 +17,7 @@ const path = require('path')
 const chalk = require('chalk')
 const webpack = require('webpack')
 const config = require('../config')
-const webpackConfig = require('./webpack.prod.conf')
+let webpackConfig = require('./webpack.prod.conf')
 
 if(staging) {
   webpackConfig = require('./webpack.staging.conf')
