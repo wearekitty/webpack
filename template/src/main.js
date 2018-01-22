@@ -8,6 +8,7 @@ import retina from 'retinajs'{{#if_eq lintConfig "airbnb"}};{{/if_eq}}
 import VueRetina from 'vue-retina'{{#if_eq lintConfig "airbnb"}};{{/if_eq}}
 {{#vuex}}
 import Vuex from 'vuex'{{#if_eq lintConfig "airbnb"}};{{/if_eq}}
+import store from '@/../store'{{#if_eq lintConfig "airbnb"}};{{/if_eq}}
 {{/vuex}}
 
 import App from './App'{{#if_eq lintConfig "airbnb"}};{{/if_eq}}
@@ -25,6 +26,9 @@ Vue.use(VueRetina, { retina });
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  {{#vuex}}
+  store,
+  {{/vuex}}
   {{#router}}
   router,
   {{/router}}
