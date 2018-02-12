@@ -9,7 +9,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-const PrerendererWebpackPlugin = require('prerenderer-webpack-plugin')
+const PuppeteerRenderer = require('@prerenderer/renderer-puppeteer')
 
 const BrowserRenderer = PrerendererWebpackPlugin.BrowserRenderer;
 
@@ -109,7 +109,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       // Required - Routes to render.
       routes: [''].map(route => '/' + pathBase + route),
       removeWhitespace: true,
-      renderer: new BrowserRenderer({
+      renderer: new PuppeteerRenderer({
         inject: true,
       }),
     }),
