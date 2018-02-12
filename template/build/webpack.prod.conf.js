@@ -12,7 +12,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const PrerendererWebpackPlugin = require('prerenderer-webpack-plugin')
-const BrowserRenderer = PrerendererWebpackPlugin.BrowserRenderer
+const PuppeteerRenderer = require('@prerenderer/renderer-puppeteer')
 
 const env = {{#if_or unit e2e}}process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
@@ -130,7 +130,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       // Required - Routes to render.
       routes: [''].map(route => '/' + pathBase + route),
       removeWhitespace: true,
-      renderer: new BrowserRenderer({
+      renderer: new PuppeteerRenderer({
         inject: true,
       }),
     }),
