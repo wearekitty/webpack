@@ -9,9 +9,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-const PuppeteerRenderer = require('@prerenderer/renderer-puppeteer')
-
-const BrowserRenderer = PrerendererWebpackPlugin.BrowserRenderer;
+const PrerenderSPAPlugin = require('prerender-spa-plugin')
+const Renderer = PrerenderSPAPlugin.PuppeteerRenderer
 
 var env = {{#if_or unit e2e}}process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
@@ -103,14 +102,25 @@ var webpackConfig = merge(baseWebpackConfig, {
       }
     ]),
 
-    new PrerendererWebpackPlugin({
-      staticDir: path.resolve(__dirname, '../dist'),
-      outputDir: path.resolve(__dirname, '../dist'),
+    new PrerenderSPAPlugin({
+      // Required - The path to the webpack-outputted app to prerender.
+      staticDir: path.join(__dirname, '../dist'),
       // Required - Routes to render.
       routes: [''].map(route => '/' + pathBase + route),
-      removeWhitespace: true,
-      renderer: new PuppeteerRenderer({
-        inject: true,
+      minify: {
+        collapseBooleanAttributes: true,
+        collapseWhitespace: true,
+        decodeEntities: true,
+        keepClosingSlash: true,
+        sortAttributes: true
+      },
+      renderer: new Renderer({
+        // Optional - The name of the property to add to the window object with the contents of `inject`.
+        injectProperty: '__PRERENDER_INJECTED',
+        // Optional - Any values you'd like your app to have access to via `window.injectProperty`.
+        inject: {
+          foo: 'bar'
+        },
       }),
     }),
   ]
