@@ -13,7 +13,7 @@
 
 <script>
   {{#unless router}}
-  import HelloWorld from '@/components/HelloWorld'{{#if_eq lintConfig "airbnb"}};{{/if_eq}}
+  import HelloWorld from '@/components/HelloWorld'
 
   {{/unless}}
   export default {

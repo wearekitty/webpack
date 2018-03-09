@@ -1,5 +1,6 @@
 const path = require('path')
 const fs = require('fs')
+
 const {
   sortDependencies,
   installDependencies,
@@ -10,9 +11,16 @@ const pkg = require('./package.json')
 
 const templateVersion = pkg.version
 
+const { addTestAnswers } = require('./scenarios')
+
 module.exports = {
+  metalsmith: {
+    // When running tests for the template, this adds answers for the selected scenario
+    before: addTestAnswers
+  },
   helpers: {
     if_or(v1, v2, options) {
+
       if (v1 || v2) {
         return options.fn(this)
       }
@@ -26,22 +34,26 @@ module.exports = {
 
   prompts: {
     name: {
+      when: 'isNotTest',
       type: 'string',
       required: true,
       message: 'Project name',
     },
     description: {
+      when: 'isNotTest',
       type: 'string',
       required: false,
       message: 'Project description',
       default: 'A Kitty project built with Vue.js'
     },
     author: {
+      when: 'isNotTest',
       type: 'string',
       message: 'Author',
       default: 'Kitty'
     },
     build: {
+      when: 'isNotTest',
       type: 'list',
       message: 'Vue build',
       choices: [
@@ -59,15 +71,17 @@ module.exports = {
       ],
     },
     router: {
+      when: 'isNotTest',
       type: 'confirm',
       message: 'Install vue-router?',
     },
     lint: {
+      when: 'isNotTest',
       type: 'confirm',
       message: 'Use ESLint to lint your code?',
     },
     lintConfig: {
-      when: 'lint',
+      when: 'isNotTest && lint',
       type: 'list',
       message: 'Pick an ESLint preset',
       choices: [
@@ -97,11 +111,12 @@ module.exports = {
       message: 'Use ESLint to lint your code?'
     },
     unit: {
+      when: 'isNotTest',
       type: 'confirm',
       message: 'Set up unit tests',
     },
     runner: {
-      when: 'unit',
+      when: 'isNotTest && unit',
       type: 'list',
       message: 'Pick a test runner',
       choices: [
@@ -123,10 +138,12 @@ module.exports = {
       ],
     },
     e2e: {
+      when: 'isNotTest',
       type: 'confirm',
       message: 'Setup e2e tests with Nightwatch?',
     },
     autoInstall: {
+      when: 'isNotTest',
       type: 'list',
       message:
         'Should we run `npm install` for you after the project has been created? (recommended)',
