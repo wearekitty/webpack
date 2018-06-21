@@ -102,6 +102,29 @@ var webpackConfig = merge(baseWebpackConfig, {
       }
     ]),
 
+    // Remove unused CSS using purgecss. See https://github.com/FullHuman/purgecss
+    // for more information about purgecss.
+    new PurgecssPlugin({
+      whitelistPatterns: [
+        /-enter$/,
+        /-enter-active$/,
+        /-enter-to$/,
+        /-leave$/,
+        /-leave-active$/,
+        /-leave-to$/,
+        /-move$/,
+        /is-active/,
+        /animation-content/,
+        /modal/,
+        /is-clipped/,
+      ],
+      paths: glob.sync([
+        path.join(__dirname, './../src/index.html'),
+        path.join(__dirname, './../src/**/*.vue'),
+        path.join(__dirname, './../src/**/*.js'),
+      ])
+    }),
+
     new PrerenderSPAPlugin({
       // Required - The path to the webpack-outputted app to prerender.
       staticDir: path.join(__dirname, '../dist'),

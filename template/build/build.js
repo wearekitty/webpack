@@ -1,7 +1,7 @@
 'use strict'
 require('./check-versions')()
 
-var staging = false;
+let staging = false;
 
 process.argv.slice(2).forEach(function(val, index) {
   if(val === "--staging-build") {
@@ -9,7 +9,7 @@ process.argv.slice(2).forEach(function(val, index) {
   }
 });
 
-process.env.NODE_ENV = 'production'
+process.env.NODE_ENV = staging ? 'staging' : 'production';
 
 const ora = require('ora')
 const rm = require('rimraf')
@@ -25,7 +25,7 @@ if(staging) {
   webpackConfig = require('./webpack.prod.conf')
 }
 
-var spinner = require('./spinner')(staging ? 'staging' : 'production');
+const spinner = require('./spinner')(process.env.NODE_ENV);
 
 rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
   if (err) throw err
