@@ -46,6 +46,17 @@ module.exports = {
       ...(config.dev.useEslint ? [createLintingRule()] : []),
       {{/lint}}
       {
+        test: /\.html$/,
+        loader: 'html-loader',
+        options: {
+          minimize: true,
+          removeComments: false,
+          collapseWhitespace: false,
+          ignoreCustomFragments: [/<%=.*?%>/],
+          interpolate: true,
+        },
+      },
+      {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: vueLoaderConfig
