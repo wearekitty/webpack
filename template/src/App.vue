@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <transition name="slide-down">
-      <img src="@/../static/kitty.png" v-rjs="2" width="206" height="110" v-show="isMounted">
+    <transition name="slide-down" appear>
+      <img src="@/../static/kitty.png" v-rjs="2" width="206" height="110">
     </transition>
     {{#router}}
     <router-view/>
@@ -21,14 +21,8 @@
     components: {
       HelloWorld{{#if_eq lintConfig "airbnb"}},{{/if_eq}}
     }{{#if_eq lintConfig "airbnb"}},{{/if_eq}}{{/router}}
-    data() {
-      return {
-        isMounted: false{{#if_eq lintConfig "airbnb"}},{{/if_eq}}
-      };
-    }{{#if_eq lintConfig "airbnb"}},{{/if_eq}}
     mounted() {
       console.log('%cWe Are Kitty', 'background: #111111; color: #FF315D; padding: 5px 20px;'){{#if_eq lintConfig "airbnb"}};{{/if_eq}} // eslint-disable-line
-      this.isMounted = true{{#if_eq lintConfig "airbnb"}};{{/if_eq}}
     }{{#if_eq lintConfig "airbnb"}},{{/if_eq}}
   }{{#if_eq lintConfig "airbnb"}};{{/if_eq}}
 </script>
