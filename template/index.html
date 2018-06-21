@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <%= htmlWebpackPlugin.options.robots %>
+    ${ process.env.NODE_ENV === 'production' ? '' : '<meta name="robots" content="noindex,follow">' }
     <title>{{ name }}</title>
   </head>
   <body>

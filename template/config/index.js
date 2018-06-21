@@ -3,7 +3,9 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
-const pathBase = require('./base-url');
+let pathBase = require('./base-url');
+
+pathBase = process.env.NODE_ENV === 'production' ? pathBase.productionPath : pathBase.stagingPath;
 
 module.exports = {
   dev: {
