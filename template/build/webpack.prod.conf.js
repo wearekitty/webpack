@@ -3,7 +3,7 @@ const path = require('path')
 const utils = require('./utils')
 const webpack = require('webpack')
 const config = require('../config')
-const pathBase = require('../config/base-url')
+const pathBase = require('../config/base-url').productionPath
 const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -11,6 +11,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const PurgecssPlugin = require('purgecss-webpack-plugin')
+const glob = require('glob-all')
 const PrerenderSPAPlugin = require('prerender-spa-plugin')
 const Renderer = PrerenderSPAPlugin.PuppeteerRenderer
 
@@ -123,6 +125,29 @@ const webpackConfig = merge(baseWebpackConfig, {
         ignore: ['.*']
       }
     ]),
+
+    // Remove unused CSS using purgecss. See https://github.com/FullHuman/purgecss
+    // for more information about purgecss.
+    new PurgecssPlugin({
+      whitelistPatterns: [
+        /-enter$/,
+        /-enter-active$/,
+        /-enter-to$/,
+        /-leave$/,
+        /-leave-active$/,
+        /-leave-to$/,
+        /-move$/,
+        /is-active/,
+        /animation-content/,
+        /modal/,
+        /is-clipped/,
+      ],
+      paths: glob.sync([
+        path.join(__dirname, './../src/index.html'),
+        path.join(__dirname, './../src/**/*.vue'),
+        path.join(__dirname, './../src/**/*.js'),
+      ])
+    }),
 
     new PrerenderSPAPlugin({
       // Required - The path to the webpack-outputted app to prerender.
